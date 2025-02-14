@@ -20,7 +20,7 @@ model User {
   userName    String
   displayName String
   email       String   @unique
-  phoneNumber Int
+  phoneNumber String
   age         Int
   password    String
   reviews     Review[] @relation(name: "user")
@@ -34,7 +34,7 @@ model Review {
   id        Int      @id @default(autoincrement())
   text      String
   userId    String
-  user      User     @relation(name: "user", fields: [userId], references: [id])
+  user      User     @relation(name: "user", fields: [userId], references: [id], onDelete: Cascade)
   imageUrl  String
   createdAt DateTime @default(now())
 }
