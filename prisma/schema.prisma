@@ -30,6 +30,21 @@ model User {
   updateAt    DateTime @updatedAt
 }
 
+model Product {
+  id          String   @id @default(uuid())
+  image       String
+  productName String
+  displayName String
+  desc        String
+  price       Int
+  weight      String
+  status      Boolean
+  stok        Int
+  terjual     Int
+  createAt    DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+
 model Review {
   id        Int      @id @default(autoincrement())
   text      String
