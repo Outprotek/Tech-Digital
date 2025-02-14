@@ -15,8 +15,26 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  username String
-  email    String @unique
-  password String @unique
+  id          String   @id @default(uuid())
+  imageUrl    String
+  userName    String
+  displayName String
+  email       String   @unique
+  phoneNumber Int
+  age         Int
+  password    String
+  reviews     Review[] @relation(name: "user")
+  isActive    Boolean  @default(true)
+  address     Json
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  text      String
+  userId    String
+  user      User     @relation(name: "user", fields: [userId], references: [id])
+  imageUrl  String
+  createdAt DateTime @default(now())
 }
