@@ -17,7 +17,7 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/user", userRoute); // Tambahkan route
 app.use("/products", productRoutes);
-
+// Ini coba dari branch crud products
 app.use(express.json());
 app.use(cors());
 
