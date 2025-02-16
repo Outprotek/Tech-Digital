@@ -29,6 +29,18 @@ const add = async (user: Prisma.UserCreateInput) => {
   return response;
 };
 
+const edit = async (id: string, data: Prisma.UserUpdateInput) => {
+  const response = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      ...data,
+    },
+  });
+  return response;
+};
+
 const deleteUser = async (userId: string) => {
   await prisma.user.delete({
     where: {
@@ -36,4 +48,4 @@ const deleteUser = async (userId: string) => {
     },
   });
 };
-export default { findUsers, findUserById, add, deleteUser };
+export default { findUsers, findUserById, add, edit, deleteUser };
