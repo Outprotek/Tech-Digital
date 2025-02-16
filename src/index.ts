@@ -30,5 +30,5 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`server is runing on port ${PORT}`);
+  console.log(`server is runing on http://localhost:${PORT}/api`);
 });
