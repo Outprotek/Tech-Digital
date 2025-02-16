@@ -10,11 +10,11 @@ const swaggerOptions: Options = {
     },
     servers: [
       {
-        url: "http://localhost:4000", // Sesuaikan dengan server kamu
+        url: "http://localhost:4000",
       },
     ],
   },
-  apis: ["./src/routes/*.ts"], // Sesuaikan path jika pakai JavaScript: ["./src/routes/*.js"]
+  apis: ["./src/routes/*.ts"],
 };
 
 export default swaggerOptions;

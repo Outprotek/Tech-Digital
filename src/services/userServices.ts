@@ -1,9 +1,12 @@
-import { PrismaClient } from "@prisma/client";
-
+import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const findUsers = async () => {
-  const response = await prisma.user.findMany();
+  const response = await prisma.user.findMany({
+    include: {
+      reviews: true,
+    },
+  });
   return response;
 };
 
@@ -17,4 +20,20 @@ const findUserById = async (userId: string) => {
   return response;
 };
 
-export default { findUsers, findUserById };
+const add = async (user: Prisma.UserCreateInput) => {
+  const response = await prisma.user.create({
+    data: {
+      ...user,
+    },
+  });
+  return response;
+};
+
+const deleteUser = async (userId: string) => {
+  await prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+};
+export default { findUsers, findUserById, add, deleteUser };
