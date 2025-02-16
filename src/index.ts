@@ -5,6 +5,7 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import swaggerOptions from "./swaggerConfig";
 import { router as userRoute } from "./routes/userRoute";
+import { router as productRoutes } from "./routes/productRoutes";
 dotenv.config();
 
 const app: Application = express();
@@ -15,6 +16,7 @@ app.use(cors());
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/user", userRoute); // Tambahkan route
+app.use("/products", productRoutes);
 
 app.use(express.json());
 app.use(cors());
