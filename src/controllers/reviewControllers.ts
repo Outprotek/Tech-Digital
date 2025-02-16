@@ -2,8 +2,13 @@ import { Request, Response } from "express";
 import reviewServices from "../services/reviewServices";
 
 const getReviews = async (req: Request, res: Response) => {
+  const { userId } = req.query;
   try {
-    const datas = await reviewServices.finds();
+    console.log(userId);
+
+    const datas = userId
+      ? await reviewServices.findByUserId(userId.toString())
+      : await reviewServices.finds();
     res.status(200).json({
       message: "Success",
       datas,
@@ -14,11 +19,13 @@ const getReviews = async (req: Request, res: Response) => {
 };
 
 const getReviewById = async (req: Request, res: Response) => {
-  const userId = req.params.id;
+  const id = parseInt(req.params.id);
   try {
-    const data = await reviewServices.findById(userId);
+    console.log(id);
+
+    const data = await reviewServices.findById(id);
     res.status(200).json({
-      message: "Success",
+      message: "Success get by id",
       data,
     });
   } catch (e: any) {
@@ -38,6 +45,19 @@ const createReview = async (req: Request, res: Response) => {
   }
 };
 
+const updateReview = async (req: Request, res: Response) => {
+  const id = Number(req.query.id);
+  try {
+    const datas = await reviewServices.edit(id, req.body);
+    res.status(200).json({
+      message: "Success",
+      datas,
+    });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
 const deleteReview = async (req: Request, res: Response) => {
   const reviewID = parseInt(req.params.id);
   try {
@@ -51,4 +71,10 @@ const deleteReview = async (req: Request, res: Response) => {
   }
 };
 
-export default { getReviews, getReviewById, createReview, deleteReview };
+export default {
+  getReviews,
+  getReviewById,
+  createReview,
+  updateReview,
+  deleteReview,
+};
