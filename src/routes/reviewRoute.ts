@@ -97,7 +97,7 @@ router.post("/", reviewControllers.createReview);
  *                 type: string
  *                 example: "string"
  *     responses:
- *       201:
+ *       200:
  *         description: Success
  */
 
