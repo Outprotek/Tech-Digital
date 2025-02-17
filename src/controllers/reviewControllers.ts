@@ -4,15 +4,18 @@ import reviewServices from "../services/reviewServices";
 const getReviews = async (req: Request, res: Response) => {
   const { userId } = req.query;
   try {
-    console.log(userId);
-
-    const datas = userId
+    const data = userId
       ? await reviewServices.findByUserId(userId.toString())
       : await reviewServices.finds();
-    res.status(200).json({
-      message: "Success",
-      datas,
-    });
+    if ("response" in data && "totalData" in data) {
+      res.status(200).json({
+        message: "Success",
+        data: {
+          data: data.response,
+        },
+        totaldata: data.totalData,
+      });
+    }
   } catch (e: any) {
     res.status(500).json({ message: e.message });
   }

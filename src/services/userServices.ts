@@ -2,12 +2,13 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const findUsers = async () => {
+  const totalData = await prisma.user.count();
   const response = await prisma.user.findMany({
     include: {
       reviews: true,
     },
   });
-  return response;
+  return { response, totalData };
 };
 
 const findUserById = async (userId: string) => {

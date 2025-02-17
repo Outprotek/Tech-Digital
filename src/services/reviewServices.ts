@@ -3,6 +3,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const finds = async () => {
+  const totalData = await prisma.review.count();
   const response = await prisma.review.findMany({
     include: {
       user: {
@@ -14,7 +15,7 @@ const finds = async () => {
       },
     },
   });
-  return response;
+  return { response, totalData };
 };
 
 const findById = async (id: number) => {
@@ -28,13 +29,18 @@ const findById = async (id: number) => {
 };
 
 const findByUserId = async (userId: string) => {
-  const response = await prisma.review.findFirst({
+  const totalData = await prisma.review.count({
+    where: {
+      userId,
+    },
+  });
+  const response = await prisma.review.findMany({
     where: {
       userId,
     },
   });
   if (!response) throw Error("review not found by userId");
-  return response;
+  return { response, totalData };
 };
 
 const add = async (review: Prisma.ReviewCreateInput) => {
