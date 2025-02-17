@@ -3,10 +3,13 @@ import userServices from "../services/userServices";
 
 const getUsers = async (req: Request, res: Response) => {
   try {
-    const datas = await userServices.findUsers();
+    const data = await userServices.findUsers();
     res.status(200).json({
       message: "Success all",
-      datas,
+      data: {
+        data: data.response,
+      },
+      totaldata: data.totalData,
     });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
