@@ -24,4 +24,37 @@ const getProductDetails = async (req: Request, res: Response) => {
   }
 };
 
-export default { getAllProducts, getProductDetails };
+const createProduct = async (req: Request, res: Response) => {
+  try {
+    const newProduct = await productServices.addProduct(req.body);
+    res.status(201).json({
+      message: "Product created successfully",
+      data: newProduct,
+    });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const updatedProduct = await productServices.modifyProduct(req.params.id, req.body);
+    res.status(200).json({
+      message: "Product updated successfully",
+      data: updatedProduct,
+    });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    await productServices.removeProduct(req.params.id);
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export default { getAllProducts, getProductDetails, createProduct, updateProduct, deleteProduct };

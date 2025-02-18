@@ -19,7 +19,7 @@ app.use(cors());
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/user", userRoute); // Tambahkan route
-app.use("/product", productRoutes);
+app.use("/products", productRoutes);
 app.use("/review", reviewRoute);
 app.use("/market", marketRoute);
 app.use("/category", categoryRoute);

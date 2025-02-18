@@ -31,23 +31,26 @@ model Review {
   user      User     @relation(name: "user", fields: [userId], references: [id], onDelete: Cascade)
   imageUrl  String
   createdAt DateTime @default(now())
+  productId String?
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  image       String
+  id          String     @id @default(uuid())
+  imageUrl    String
   productName String
-  displayName String
   desc        String
-  price       Int
-  weight      String
-  status      Boolean
-  stok        Int
-  terjual     Int
+  price       Int        @default(0)
+  weight      Int        @default(0)
+  isActive    Boolean    @default(true)
+  stock       Int        @default(0)
+  soldOut     Int
   marketId    String
-  market      Market   @relation(fields: [marketId], references: [id])
-  createAt    DateTime @default(now())
-  updateAt    DateTime
+  market      Market     @relation(fields: [marketId], references: [id])
+  createAt    DateTime   @default(now())
+  updateAt    DateTime   @updatedAt
+  reviews     Review[]
+  categories  Category[]
 }
 
 model Market {
@@ -67,7 +70,8 @@ model Market {
 }
 
 model Category {
-  id    Int    @id @default(autoincrement())
-  label String
-  desc  String
+  id       Int       @id @default(autoincrement())
+  label    String
+  desc     String
+  products Product[]
 }
