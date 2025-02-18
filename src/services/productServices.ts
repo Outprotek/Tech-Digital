@@ -51,9 +51,19 @@ const modifyProduct = async (id: string, data: any) => {
   const existingProduct = await prisma.product.findUnique({ where: { id } });
   if (!existingProduct) throw new Error("Product not found");
 
+  // Pastikan id tidak diubah
+  const { id: _, categories, ...updateData } = data;
+
   return await prisma.product.update({
     where: { id },
-    data,
+    data: {
+      ...updateData,
+      categories: categories
+        ? {
+            set: categories.map((category: { id: number }) => ({ id: category.id })),
+          }
+        : undefined,
+    },
   });
 };
 

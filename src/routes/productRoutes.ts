@@ -117,15 +117,16 @@ router.post("/", productHandlers.createProduct);
  *                 items:
  *                   type: object
  *                   properties:
- *                     label:
- *                       type: string
- *                     desc:
- *                       type: string
+ *                     id:
+ *                       type: integer
  *     responses:
  *       200:
  *         description: Success Edited
+ *       404:
+ *         description: Product not found
  */
 router.put("/:id", productHandlers.updateProduct);
+
 
 /**
  * @swagger

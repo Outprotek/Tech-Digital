@@ -42,16 +42,13 @@ const createProduct = async (req: Request, res: Response) => {
 
 const updateProduct = async (req: Request, res: Response) => {
   try {
-    const updatedProduct = await productServices.modifyProduct(
-      req.params.id,
-      req.body
-    );
+    const updatedProduct = await productServices.modifyProduct(req.params.id, req.body);
     res.status(200).json({
       message: "Product updated successfully",
       data: updatedProduct,
     });
   } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    res.status(error.message === "Product not found" ? 404 : 400).json({ message: error.message });
   }
 };
 

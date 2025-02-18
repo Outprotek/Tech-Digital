@@ -37,20 +37,20 @@ model Review {
 
 model Product {
   id          String     @id @default(uuid())
+  imageUrl    String
   productName String
-  desc        String
   price       Int        @default(0)
+  weight      Int        @default(0)
+  desc        String
+  categories  Category[] @relation("CategoryToProduct")
+  stock       Int        @default(0)
+  soldOut     Int
+  reviews     Review[]
+  isActive    Boolean    @default(true)
+  market      Market     @relation(fields: [marketId], references: [id])
+  marketId    String
   createAt    DateTime   @default(now())
   updateAt    DateTime   @updatedAt
-  marketId    String
-  imageUrl    String
-  isActive    Boolean    @default(true)
-  soldOut     Int
-  stock       Int        @default(0)
-  weight      Int        @default(0)
-  market      Market     @relation(fields: [marketId], references: [id])
-  reviews     Review[]
-  categories  Category[] @relation("CategoryToProduct")
 }
 
 model Market {
