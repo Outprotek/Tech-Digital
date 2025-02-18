@@ -35,7 +35,6 @@ router.get("/", productHandlers.getAllProducts);
  */
 router.get("/:id", productHandlers.getProductDetails);
 
-
 /**
  * @swagger
  * /products:
@@ -70,10 +69,8 @@ router.get("/:id", productHandlers.getProductDetails);
  *                 items:
  *                   type: object
  *                   properties:
- *                     label:
- *                       type: string
- *                     desc:
- *                       type: string  
+ *                     id:
+ *                       type: integer
  *     responses:
  *       201:
  *         description: Success Created
@@ -123,13 +120,12 @@ router.post("/", productHandlers.createProduct);
  *                     label:
  *                       type: string
  *                     desc:
- *                       type: string 
+ *                       type: string
  *     responses:
  *       200:
  *         description: Success Edited
  */
 router.put("/:id", productHandlers.updateProduct);
-
 
 /**
  * @swagger

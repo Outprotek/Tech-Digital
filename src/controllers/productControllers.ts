@@ -3,9 +3,13 @@ import productServices from "../services/productServices";
 
 const getAllProducts = async (req: Request, res: Response) => {
   try {
+    const data = await productServices.fetchAllProducts();
     res.status(200).json({
       message: "Successfully retrieved all products",
-      data: await productServices.fetchAllProducts(),
+      data: {
+        data: data.response,
+      },
+      totaldata: data.totalData,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -38,7 +42,10 @@ const createProduct = async (req: Request, res: Response) => {
 
 const updateProduct = async (req: Request, res: Response) => {
   try {
-    const updatedProduct = await productServices.modifyProduct(req.params.id, req.body);
+    const updatedProduct = await productServices.modifyProduct(
+      req.params.id,
+      req.body
+    );
     res.status(200).json({
       message: "Product updated successfully",
       data: updatedProduct,
@@ -57,4 +64,10 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-export default { getAllProducts, getProductDetails, createProduct, updateProduct, deleteProduct };
+export default {
+  getAllProducts,
+  getProductDetails,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
