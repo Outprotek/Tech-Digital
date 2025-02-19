@@ -9,6 +9,8 @@ import { router as productRoutes } from "./routes/productRoutes";
 import { router as reviewRoute } from "./routes/reviewRoute";
 import { router as marketRoute } from "./routes/marketRoutes";
 import { router as categoryRoute } from "./routes/categoryRoute";
+import { router as variantRoute } from "./routes/variantRoute";
+
 dotenv.config();
 
 const app: Application = express();
@@ -23,6 +25,7 @@ app.use("/products", productRoutes);
 app.use("/review", reviewRoute);
 app.use("/market", marketRoute);
 app.use("/category", categoryRoute);
+app.use("/variant", variantRoute);
 
 app.use(express.json());
 app.use(cors());

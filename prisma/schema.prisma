@@ -51,6 +51,7 @@ model Product {
   marketId    String
   createAt    DateTime   @default(now())
   updateAt    DateTime   @updatedAt
+  Variant     Variant[]
 }
 
 model Market {
@@ -74,4 +75,13 @@ model Category {
   label    String
   desc     String
   products Product[] @relation("CategoryToProduct")
+}
+
+model Variant {
+  id        Int      @id @default(autoincrement())
+  label     String
+  price     Int      @default(0)
+  productId String
+  type      String
+  Products  Product? @relation(fields: [productId], references: [id])
 }
