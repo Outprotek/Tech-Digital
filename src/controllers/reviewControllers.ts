@@ -2,11 +2,14 @@ import { Request, Response } from "express";
 import reviewServices from "../services/reviewServices";
 
 const getReviews = async (req: Request, res: Response) => {
-  const { userId } = req.query;
+  const userId = req.query.userId as string | undefined;
+  const productId = req.query.productId as string | undefined;
+
   try {
-    const data = userId
-      ? await reviewServices.findByUserId(userId.toString())
-      : await reviewServices.finds();
+    const data =
+      userId || productId
+        ? await reviewServices.findReviews({ userId, productId })
+        : await reviewServices.finds();
     if ("response" in data && "totalData" in data) {
       res.status(200).json({
         message: "Success",
@@ -48,19 +51,6 @@ const createReview = async (req: Request, res: Response) => {
   }
 };
 
-const updateReview = async (req: Request, res: Response) => {
-  const id = Number(req.query.id);
-  try {
-    const datas = await reviewServices.edit(id, req.body);
-    res.status(200).json({
-      message: "Success",
-      datas,
-    });
-  } catch (e: any) {
-    res.status(500).json({ message: e.message });
-  }
-};
-
 const deleteReview = async (req: Request, res: Response) => {
   const reviewID = parseInt(req.params.id);
   try {
@@ -78,6 +68,5 @@ export default {
   getReviews,
   getReviewById,
   createReview,
-  updateReview,
   deleteReview,
 };

@@ -27,19 +27,19 @@ const findById = async (id: number) => {
   if (!response) throw Error("review not found");
   return response;
 };
+const findReviews = async (params: { userId?: string; productId?: string }) => {
+  const { userId, productId } = params;
 
-const findByUserId = async (userId: string) => {
-  const totalData = await prisma.review.count({
-    where: {
-      userId,
-    },
-  });
-  const response = await prisma.review.findMany({
-    where: {
-      userId,
-    },
-  });
-  if (!response) throw Error("review not found by userId");
+  if (!userId && !productId) throw new Error("userId or productId is required");
+
+  const where = userId ? { userId } : { productId };
+
+  const totalData = await prisma.review.count({ where });
+
+  const response = await prisma.review.findMany({ where });
+
+  if (!response.length) throw new Error("Review not found");
+
   return { response, totalData };
 };
 
@@ -47,18 +47,6 @@ const add = async (review: Prisma.ReviewCreateInput) => {
   const response = await prisma.review.create({
     data: {
       ...review,
-    },
-  });
-  return response;
-};
-
-const edit = async (id: number, data: Prisma.ReviewUpdateInput) => {
-  const response = await prisma.review.update({
-    where: {
-      id,
-    },
-    data: {
-      ...data,
     },
   });
   return response;
@@ -72,4 +60,10 @@ const remove = async (id: number) => {
   });
 };
 
-export default { finds, findById, findByUserId, add, edit, remove };
+export default {
+  finds,
+  findById,
+  findReviews,
+  add,
+  remove,
+};

@@ -6,6 +6,12 @@ const fetchAllProducts = async () => {
   const totalData = await prisma.product.count();
   const response = await prisma.product.findMany({
     include: {
+      _count: {
+        select: {
+          reviews: true,
+          variant: true,
+        },
+      },
       categories: {
         select: {
           id: true,
@@ -25,6 +31,12 @@ const fetchProductById = async (id: string) => {
         select: {
           id: true,
           label: true,
+        },
+      },
+      _count: {
+        select: {
+          reviews: true,
+          variant: true,
         },
       },
     },
@@ -60,7 +72,9 @@ const modifyProduct = async (id: string, data: any) => {
       ...updateData,
       categories: categories
         ? {
-            set: categories.map((category: { id: number }) => ({ id: category.id })),
+            set: categories.map((category: { id: number }) => ({
+              id: category.id,
+            })),
           }
         : undefined,
     },

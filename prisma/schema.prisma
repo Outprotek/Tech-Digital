@@ -17,6 +17,7 @@ model User {
   phoneNumber String
   age         Int
   password    String
+  reviewCount Int      @default(0)
   isActive    Boolean  @default(true)
   address     Json
   createdAt   DateTime @default(now())
@@ -36,38 +37,40 @@ model Review {
 }
 
 model Product {
-  id          String     @id @default(uuid())
-  imageUrl    String
-  productName String
-  price       Int        @default(0)
-  weight      Int        @default(0)
-  desc        String
-  categories  Category[] @relation("CategoryToProduct")
-  stock       Int        @default(0)
-  soldOut     Int
-  reviews     Review[]
-  isActive    Boolean    @default(true)
-  market      Market     @relation(fields: [marketId], references: [id])
-  marketId    String
-  createAt    DateTime   @default(now())
-  updateAt    DateTime   @updatedAt
-  Variant     Variant[]
+  id           String     @id @default(uuid())
+  imageUrl     String
+  productName  String
+  price        Int        @default(0)
+  weight       Int        @default(0)
+  desc         String
+  categories   Category[] @relation("CategoryToProduct")
+  stock        Int        @default(0)
+  soldOut      Int
+  reviews      Review[]
+  reviewCount  Int        @default(0)
+  variantCount Int        @default(0)
+  isActive     Boolean    @default(true)
+  market       Market     @relation(fields: [marketId], references: [id])
+  marketId     String
+  createAt     DateTime   @default(now())
+  updateAt     DateTime   @updatedAt
+  variant      Variant[]
 }
 
 model Market {
-  id             String    @id @default(uuid())
-  imageUrl       String
-  displayName    String
-  bio            String
-  email          String    @unique
-  phoneNumber    String
-  password       String
-  isActive       Boolean   @default(true)
-  productsCounts Int       @default(0)
-  address        Json
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  products       Product[]
+  id           String    @id @default(uuid())
+  imageUrl     String
+  displayName  String
+  bio          String
+  email        String    @unique
+  phoneNumber  String
+  password     String
+  isActive     Boolean   @default(true)
+  productCount Int       @default(0)
+  address      Json
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  products     Product[]
 }
 
 model Category {

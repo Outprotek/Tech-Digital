@@ -5,7 +5,11 @@ const findUsers = async () => {
   const totalData = await prisma.user.count();
   const response = await prisma.user.findMany({
     include: {
-      reviews: true,
+      _count: {
+        select: {
+          reviews: true,
+        },
+      },
     },
   });
   return { response, totalData };
@@ -15,6 +19,13 @@ const findUserById = async (userId: string) => {
   const response = await prisma.user.findFirst({
     where: {
       id: userId,
+    },
+    include: {
+      _count: {
+        select: {
+          reviews: true,
+        },
+      },
     },
   });
   if (!response) throw Error("user not found");

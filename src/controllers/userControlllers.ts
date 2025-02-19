@@ -4,10 +4,14 @@ import userServices from "../services/userServices";
 const getUsers = async (req: Request, res: Response) => {
   try {
     const data = await userServices.findUsers();
+    const formattedData = data.response.map(({ _count, ...rest }) => ({
+      ...rest,
+      reviewCount: _count.reviews,
+    }));
     res.status(200).json({
       message: "Success all",
       data: {
-        data: data.response,
+        data: formattedData,
       },
       totaldata: data.totalData,
     });
@@ -19,10 +23,17 @@ const getUsers = async (req: Request, res: Response) => {
 const getUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
   try {
-    const datas = await userServices.findUserById(userId);
+    const data = await userServices.findUserById(userId);
+
+    const { _count, ...rest } = data;
+    const formattedData = {
+      ...rest,
+      reviewCount: data._count.reviews,
+    };
     res.status(200).json({
       message: "Success by id",
-      datas,
+      formattedData,
+      _count: undefined,
     });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
@@ -44,10 +55,10 @@ const createUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   const id = req.query.id as string;
   try {
-    const datas = await userServices.edit(id, req.body);
+    const data = await userServices.edit(id, req.body);
     res.status(200).json({
       message: "Success",
-      datas,
+      data,
     });
   } catch (e: any) {
     res.status(500).json({ message: e.message });

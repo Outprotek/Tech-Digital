@@ -14,6 +14,10 @@ export const router = Router();
  *         in: query
  *         schema:
  *           type: string
+ *       - name: productId
+ *         in: query
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Success
@@ -53,6 +57,7 @@ router.get("/:id", reviewControllers.getReviewById);
  *               - text
  *               - userId
  *               - imageUrl
+ *               - productId
  *             properties:
  *               text:
  *                 type: string
@@ -63,45 +68,15 @@ router.get("/:id", reviewControllers.getReviewById);
  *               imageUrl:
  *                 type: string
  *                 example: "string"
+ *               productId:
+ *                 type: string
+ *                 example: "string"
  *     responses:
  *       201:
  *         description: Success
  */
 
 router.post("/", reviewControllers.createReview);
-
-/**
- * @swagger
- * /review:
- *   put:
- *     tags:
- *       - Review
- *     parameters:
- *       - name: id
- *         in: query
- *         schema:
- *           type: number
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - text
- *               - imageUrl
- *             properties:
- *               text:
- *                 type: string
- *                 example: "string"
- *               imageUrl:
- *                 type: string
- *                 example: "string"
- *     responses:
- *       200:
- *         description: Success
- */
-
-router.put("/", reviewControllers.updateReview);
 
 /**
  * @swagger

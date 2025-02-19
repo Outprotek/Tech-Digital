@@ -4,10 +4,15 @@ import productServices from "../services/productServices";
 const getAllProducts = async (req: Request, res: Response) => {
   try {
     const data = await productServices.fetchAllProducts();
+    const formattedData = data.response.map(({ _count, ...rest }) => ({
+      ...rest,
+      reviewCount: _count.reviews,
+      variantCount: _count.variant,
+    }));
     res.status(200).json({
       message: "Successfully retrieved all products",
       data: {
-        data: data.response,
+        data: formattedData,
       },
       totaldata: data.totalData,
     });
@@ -19,9 +24,16 @@ const getAllProducts = async (req: Request, res: Response) => {
 const getProductDetails = async (req: Request, res: Response) => {
   try {
     const product = await productServices.fetchProductById(req.params.id);
+
+    const { _count, ...rest } = product;
+    const formattedData = {
+      ...rest,
+      reviewCount: product._count.reviews,
+      variantCount: product._count.variant,
+    };
     res.status(200).json({
       message: "Product found",
-      data: product,
+      data: formattedData,
     });
   } catch (error: any) {
     res.status(404).json({ message: error.message });
@@ -42,13 +54,18 @@ const createProduct = async (req: Request, res: Response) => {
 
 const updateProduct = async (req: Request, res: Response) => {
   try {
-    const updatedProduct = await productServices.modifyProduct(req.params.id, req.body);
+    const updatedProduct = await productServices.modifyProduct(
+      req.params.id,
+      req.body
+    );
     res.status(200).json({
       message: "Product updated successfully",
       data: updatedProduct,
     });
   } catch (error: any) {
-    res.status(error.message === "Product not found" ? 404 : 400).json({ message: error.message });
+    res
+      .status(error.message === "Product not found" ? 404 : 400)
+      .json({ message: error.message });
   }
 };
 
