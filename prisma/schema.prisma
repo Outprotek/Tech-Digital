@@ -20,6 +20,7 @@ model User {
   reviewCount Int      @default(0)
   isActive    Boolean  @default(true)
   address     Json
+  orders      Order[]
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
   reviews     Review[] @relation("user")
@@ -37,24 +38,25 @@ model Review {
 }
 
 model Product {
-  id           String     @id @default(uuid())
+  id           String      @id @default(uuid())
   imageUrl     String
   productName  String
-  price        Int        @default(0)
-  weight       Int        @default(0)
+  price        Int         @default(0)
+  weight       Int         @default(0)
   desc         String
-  categories   Category[] @relation("CategoryToProduct")
-  stock        Int        @default(0)
+  categories   Category[]  @relation("CategoryToProduct")
+  stock        Int         @default(0)
   soldOut      Int
   reviews      Review[]
-  reviewCount  Int        @default(0)
-  variantCount Int        @default(0)
-  isActive     Boolean    @default(true)
-  market       Market     @relation(fields: [marketId], references: [id])
+  reviewCount  Int         @default(0)
+  variantCount Int         @default(0)
+  isActive     Boolean     @default(true)
+  market       Market      @relation(fields: [marketId], references: [id])
   marketId     String
-  createAt     DateTime   @default(now())
-  updateAt     DateTime   @updatedAt
+  createAt     DateTime    @default(now())
+  updateAt     DateTime    @updatedAt
   variant      Variant[]
+  orders       OrderItem[]
 }
 
 model Market {
@@ -71,6 +73,26 @@ model Market {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   products     Product[]
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  items      OrderItem[]
+  totalPrice Decimal     @default(0)
+  status     String      @default("PENDING")
+  createdAt  DateTime    @default(now())
+}
+
+model OrderItem {
+  id         String  @id @default(uuid())
+  orderId    String
+  productId  String
+  order      Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity   Int     @default(1)
+  totalPrice Decimal
 }
 
 model Category {
