@@ -62,6 +62,39 @@ router.post("/", cateogoryController.createCategory);
 
 /**
  * @swagger
+ * /category:
+ *   put:
+ *     tags:
+ *       - Category
+ *     parameters:
+ *       - name: id
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - label
+ *             properties:
+ *               label:
+ *                 type: string
+ *                 example: "string"
+ *               desc:
+ *                 type: string
+ *                 example: "string"
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+
+router.put("/", cateogoryController.updateCategory);
+
+/**
+ * @swagger
  * /category/{id}:
  *   delete:
  *     tags:

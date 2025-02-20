@@ -27,6 +27,18 @@ const add = async (data: Prisma.CategoryCreateInput) => {
   return response;
 };
 
+const edit = async (id: number, data: Prisma.CategoryUpdateInput) => {
+  const response = await prisma.category.update({
+    where: {
+      id,
+    },
+    data: {
+      ...data,
+    },
+  });
+  return response;
+};
+
 const remove = async (id: number) => {
   await prisma.category.delete({
     where: {
@@ -35,4 +47,4 @@ const remove = async (id: number) => {
   });
 };
 
-export default { finds, findById, add, remove };
+export default { finds, findById, add, edit, remove };

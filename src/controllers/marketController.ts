@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import marketServices from "../services/marketServices";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
+import bcrypt from "bcrypt";
 const getMarkets = async (req: Request, res: Response) => {
   try {
     const data = await marketServices.finds();
     const formattedData = data.response.map(({ _count, ...rest }) => ({
       ...rest,
       productCount: _count.products,
+      password: undefined,
     }));
 
     res.status(200).json({
@@ -31,6 +30,7 @@ const getMarketById = async (req: Request, res: Response) => {
     const formattedData = {
       ...rest,
       productCount: _count.products,
+      password: undefined,
     };
     res.status(200).json({
       message: "Success",
@@ -42,8 +42,10 @@ const getMarketById = async (req: Request, res: Response) => {
 };
 
 const createMarket = async (req: Request, res: Response) => {
+  const hashPassword = await bcrypt.hash(req.body.password, 10);
+  const data = { ...req.body, password: hashPassword };
   try {
-    const datas = await marketServices.add(req.body);
+    const datas = await marketServices.add(data);
     res.status(201).json({
       message: "Success",
       datas,
@@ -68,12 +70,25 @@ const updateMarket = async (req: Request, res: Response) => {
   }
 };
 
+const statusMarket = async (req: Request, res: Response) => {
+  const id = req.query.id as string;
+  try {
+    await marketServices.findById(id);
+    await marketServices.status(id, req.body.isActive);
+    res.status(200).json({
+      message: "Success",
+    });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
 const deleteMarket = async (req: Request, res: Response) => {
   const marketId = req.params.id;
   try {
     await marketServices.remove(marketId);
     res.status(200).json({
-      message: "Success",
+      message: "Success change status",
     });
   } catch (e: any) {
     res.status(500).json({ message: e.message });
@@ -85,5 +100,6 @@ export default {
   getMarketById,
   createMarket,
   updateMarket,
+  statusMarket,
   deleteMarket,
 };

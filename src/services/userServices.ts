@@ -2,8 +2,15 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const findUsers = async () => {
-  const totalData = await prisma.user.count();
+  const totalData = await prisma.user.count({
+    where: {
+      isActive: true,
+    },
+  });
   const response = await prisma.user.findMany({
+    where: {
+      isActive: true,
+    },
     include: {
       _count: {
         select: {
@@ -53,6 +60,17 @@ const edit = async (id: string, data: Prisma.UserUpdateInput) => {
   return response;
 };
 
+const status = async (id: string, status: boolean) => {
+  await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      isActive: status,
+    },
+  });
+};
+
 const deleteUser = async (userId: string) => {
   await prisma.user.delete({
     where: {
@@ -60,4 +78,4 @@ const deleteUser = async (userId: string) => {
     },
   });
 };
-export default { findUsers, findUserById, add, edit, deleteUser };
+export default { findUsers, findUserById, add, edit, status, deleteUser };

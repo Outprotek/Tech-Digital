@@ -176,6 +176,35 @@ router.put("/", userControllers.updateUser);
 
 /**
  * @swagger
+ * /user/status:
+ *   put:
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - name: id
+ *         in: query
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - isActive
+ *             properties:
+ *               isActive:
+ *                 type: boolean
+ *                 example: false
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+
+router.put("/status", userControllers.statusUser);
+
+/**
+ * @swagger
  * /user/{id}:
  *   delete:
  *     tags:

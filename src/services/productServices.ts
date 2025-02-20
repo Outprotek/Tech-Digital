@@ -3,8 +3,15 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const fetchAllProducts = async () => {
-  const totalData = await prisma.product.count();
+  const totalData = await prisma.product.count({
+    where: {
+      isActive: true,
+    },
+  });
   const response = await prisma.product.findMany({
+    where: {
+      isActive: true,
+    },
     include: {
       _count: {
         select: {
@@ -50,9 +57,15 @@ const addProduct = async (data: Prisma.ProductCreateInput) => {
     data: {
       ...data,
       categories: {
-        connect: (Array.isArray(data.categories) ? data.categories : []).map(
-          (category) => ({ id: category.id })
-        ),
+        connectOrCreate: (Array.isArray(data.categories)
+          ? data.categories
+          : []
+        ).map((category) => ({
+          where: { label: category.label },
+          create: {
+            label: category.label,
+          },
+        })),
       },
     },
   });
