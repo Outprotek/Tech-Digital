@@ -166,6 +166,35 @@ router.put("/", marketController.updateMarket);
 
 /**
  * @swagger
+ * /market/status:
+ *   put:
+ *     tags:
+ *       - Market
+ *     parameters:
+ *       - name: id
+ *         in: query
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - isActive
+ *             properties:
+ *               isActive:
+ *                 type: boolean
+ *                 example: false
+ *     responses:
+ *       201:
+ *         description: Success
+ */
+
+router.put("/status", marketController.statusMarket);
+
+/**
+ * @swagger
  * /market/{id}:
  *   delete:
  *     tags:

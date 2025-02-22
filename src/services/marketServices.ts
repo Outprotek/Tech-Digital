@@ -4,6 +4,9 @@ const prisma = new PrismaClient();
 
 const finds = async () => {
   const response = await prisma.market.findMany({
+    where: {
+      isActive: true,
+    },
     include: {
       _count: {
         select: {
@@ -12,7 +15,11 @@ const finds = async () => {
       },
     },
   });
-  const totalData = await prisma.market.count();
+  const totalData = await prisma.market.count({
+    where: {
+      isActive: true,
+    },
+  });
   return { response, totalData };
 };
 
@@ -54,6 +61,17 @@ const edit = async (id: string, data: Prisma.MarketUpdateInput) => {
   return response;
 };
 
+const status = async (id: string, status: boolean) => {
+  await prisma.market.update({
+    where: {
+      id,
+    },
+    data: {
+      isActive: status,
+    },
+  });
+};
+
 const remove = async (id: string) => {
   await prisma.market.delete({
     where: {
@@ -61,4 +79,4 @@ const remove = async (id: string) => {
     },
   });
 };
-export default { finds, findById, add, edit, remove };
+export default { finds, findById, add, edit, status, remove };

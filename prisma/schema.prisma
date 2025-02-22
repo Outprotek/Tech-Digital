@@ -12,6 +12,7 @@ model User {
   id          String   @id @default(uuid())
   imageUrl    String
   userName    String
+  token       String?
   displayName String
   email       String   @unique
   phoneNumber String
@@ -96,8 +97,8 @@ model OrderItem {
 
 model Category {
   id       Int       @id @default(autoincrement())
-  label    String
-  desc     String
+  label    String    @unique
+  desc     String?
   products Product[] @relation("CategoryToProduct")
 }
 

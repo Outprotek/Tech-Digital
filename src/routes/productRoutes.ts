@@ -69,8 +69,8 @@ router.get("/:id", productHandlers.getProductDetails);
  *                 items:
  *                   type: object
  *                   properties:
- *                     id:
- *                       type: integer
+ *                     label:
+ *                       type: string
  *     responses:
  *       201:
  *         description: Success Created
@@ -126,7 +126,6 @@ router.post("/", productHandlers.createProduct);
  *         description: Product not found
  */
 router.put("/:id", productHandlers.updateProduct);
-
 
 /**
  * @swagger

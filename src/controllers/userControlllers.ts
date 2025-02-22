@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import userServices from "../services/userServices";
-
+import bcrypt from "bcrypt";
 const getUsers = async (req: Request, res: Response) => {
   try {
     const data = await userServices.findUsers();
     const formattedData = data.response.map(({ _count, ...rest }) => ({
       ...rest,
       reviewCount: _count.reviews,
+      password: undefined,
     }));
     res.status(200).json({
       message: "Success all",
@@ -29,6 +30,7 @@ const getUser = async (req: Request, res: Response) => {
     const formattedData = {
       ...rest,
       reviewCount: data._count.reviews,
+      password: undefined,
     };
     res.status(200).json({
       message: "Success by id",
@@ -41,8 +43,10 @@ const getUser = async (req: Request, res: Response) => {
 };
 
 const createUser = async (req: Request, res: Response) => {
+  const hashPassword = await bcrypt.hash(req.body.password, 10);
+  const data = { ...req.body, password: hashPassword };
   try {
-    const datas = await userServices.add(req.body);
+    const datas = await userServices.add(data);
     res.status(201).json({
       message: "Success",
       datas,
@@ -65,6 +69,19 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+const statusUser = async (req: Request, res: Response) => {
+  const id = req.query.id as string;
+  try {
+    await userServices.findUserById(id);
+    await userServices.status(id, req.body.isActive);
+    res.status(200).json({
+      message: "Success change status",
+    });
+  } catch (e: any) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
 const deleteUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
   try {
@@ -76,4 +93,11 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-export default { getUsers, getUser, createUser, updateUser, deleteUser };
+export default {
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  statusUser,
+  deleteUser,
+};
