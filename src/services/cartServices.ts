@@ -7,20 +7,37 @@ const finds = async () => {
   const response = await prisma.cart.findMany({
     include: {
       items: true,
-      // user: true,
     },
   });
   return { response, totalData };
 };
 
 const findById = async (id: string) => {
-  const response = prisma.cart.findUnique({
+  const response = await prisma.cart.findUnique({
     where: {
       id,
     },
   });
   if (!response) throw Error("order not found");
   return response;
+};
+
+const findByUserId = async (userId: string) => {
+  const totalData = await prisma.cart.count({
+    where: {
+      userId,
+    },
+  });
+  const response = await prisma.cart.findFirst({
+    where: {
+      userId,
+    },
+    include: {
+      items: true,
+    },
+  });
+  if (!response) throw Error("cart not found");
+  return { response, totalData };
 };
 
 const add = async (
@@ -160,4 +177,4 @@ const remove = async (id: string) => {
   });
 };
 
-export default { finds, findById, add, remove };
+export default { finds, findById, findByUserId, add, remove };

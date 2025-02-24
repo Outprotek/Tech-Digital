@@ -2,15 +2,20 @@ import { Request, Response } from "express";
 import cartServices from "../services/cartServices";
 
 const getCarts = async (req: Request, res: Response) => {
+  const { userId } = req.query;
   try {
-    const data = await cartServices.finds();
-    res.status(200).json({
-      message: "Success",
-      data: {
-        data: data.response,
-      },
-      totaldata: data.totalData,
-    });
+    const data = userId
+      ? await cartServices.findByUserId(userId.toString())
+      : await cartServices.finds();
+    if ("response" in data && "totalData" in data) {
+      res.status(200).json({
+        message: "Success",
+        data: {
+          data: data.response,
+        },
+        totaldata: data.totalData,
+      });
+    }
   } catch (e: any) {
     res.status(500).json({ message: e.message });
   }

@@ -9,6 +9,11 @@ export const router = Router();
  *   get:
  *     tags:
  *       - Cart
+ *     parameters:
+ *       - name: userId
+ *         in: query
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Sucsess.

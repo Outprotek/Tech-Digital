@@ -42,10 +42,8 @@ model Product {
   id           String     @id @default(uuid())
   imageUrl     String
   productName  String
-  price        Decimal?
   desc         String
   categories   Category[] @relation("CategoryToProduct")
-  stock        Int?
   soldOut      Int
   reviews      Review[]
   reviewCount  Int        @default(0)
