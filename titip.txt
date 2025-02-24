@@ -1,0 +1,42 @@
+// export const add = async (
+//   userId: string,
+//   items: { variantId: string; quantity: number }[]
+// ) => {
+//   return prisma.$transaction(async (tx) => {
+//     const order = await tx.order.create({
+//       data: { userId },
+//     });
+
+//     const variantIds = items.map((item) => item.variantId);
+//     const variants = await tx.variant.findMany({
+//       where: { id: { in: variantIds } },
+//     });
+
+//     let totalPrice = 0;
+//     const orderItems = items.map((item) => {
+//       const variant = variants.find((v) => v.id === item.variantId);
+//       if (!variant || variant.stock < item.quantity) {
+//         throw new Error(`Variant ${item.variantId} is out of stock`);
+//       }
+//       const subTotal = variant.price * item.quantity;
+//       totalPrice += subTotal;
+//       return {
+//         orderId: order.id,
+//         variantId: item.variantId,
+//         quantity: item.quantity,
+//         subTotal,
+//       };
+//     });
+
+//     await tx.orderItem.createMany({
+//       data: orderItems,
+//     });
+
+//     await tx.order.update({
+//       where: { id: order.id },
+//       data: { totalPrice },
+//     });
+
+//     return { order, orderItems };
+//   });
+// };

@@ -10,7 +10,7 @@ import { router as reviewRoute } from "./routes/reviewRoute";
 import { router as marketRoute } from "./routes/marketRoutes";
 import { router as categoryRoute } from "./routes/categoryRoute";
 import { router as variantRoute } from "./routes/variantRoute";
-import { router as orderRoute } from "./routes/orderRoute";
+import { router as cartRoute } from "./routes/cartRoute";
 import { router as orderItems } from "./routes/orderItems";
 
 dotenv.config();
@@ -28,7 +28,7 @@ app.use("/review", reviewRoute);
 app.use("/market", marketRoute);
 app.use("/category", categoryRoute);
 app.use("/variant", variantRoute);
-app.use("/order", orderRoute);
+app.use("/cart", cartRoute);
 app.use("/orderitems", orderItems);
 
 app.use(express.json());

@@ -35,46 +35,6 @@ router.get("/:id", orderItems.getOrder);
 
 /**
  * @swagger
- * /orderitems:
- *   post:
- *     tags:
- *       - OrderItems
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - userId
- *               - orderId
- *               - productId
- *               - quantity
- *               - totalPrice
- *             properties:
- *               userId:
- *                 type: string
- *                 example: "string"
- *               orderId:
- *                 type: string
- *                 example: "string"
- *               productId:
- *                 type: string
- *                 example: "string"
- *               quantity:
- *                 type: integer
- *                 example: 1
- *               totalPrice:
- *                 type: integer
- *                 example: 0
- *     responses:
- *       201:
- *         description: Success
- */
-
-router.post("/", orderItems.createOrder);
-
-/**
- * @swagger
  * /orderitems/{id}:
  *   delete:
  *     tags:

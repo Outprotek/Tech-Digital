@@ -32,20 +32,6 @@ const getOrder = async (req: Request, res: Response) => {
   }
 };
 
-const createOrder = async (req: Request, res: Response) => {
-  try {
-    const data = await orderItems.add(req.body);
-    res.status(200).json({
-      message: "Success",
-      data: {
-        data,
-      },
-    });
-  } catch (e: any) {
-    res.status(500).json({ message: e.message });
-  }
-};
-
 const deleteOrder = async (req: Request, res: Response) => {
   const userId = req.params.id;
   try {
@@ -58,4 +44,4 @@ const deleteOrder = async (req: Request, res: Response) => {
   }
 };
 
-export default { getOrders, getOrder, createOrder, deleteOrder };
+export default { getOrders, getOrder, deleteOrder };

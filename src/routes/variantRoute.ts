@@ -52,19 +52,20 @@ router.get("/:id", variantController.getVariantById);
  *             required:
  *               - label
  *               - price
+ *               - stock
  *               - productId
- *               - type
  *             properties:
  *               label:
  *                 type: string
  *                 example: "string"
  *               price:
+ *                 type: number
+ *                 format: float
+ *                 example: 0
+ *               stock:
  *                 type: integer
  *                 example: 0
  *               productId:
- *                 type: string
- *                 example: "string"
- *               type:
  *                 type: string
  *                 example: "string"
  *     responses:

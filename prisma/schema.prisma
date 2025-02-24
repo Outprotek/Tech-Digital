@@ -21,7 +21,7 @@ model User {
   reviewCount Int      @default(0)
   isActive    Boolean  @default(true)
   address     Json
-  orders      Order[]
+  cart        Cart[]
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
   reviews     Review[] @relation("user")
@@ -39,24 +39,23 @@ model Review {
 }
 
 model Product {
-  id           String      @id @default(uuid())
+  id           String     @id @default(uuid())
   imageUrl     String
   productName  String
-  price        Int?
+  price        Decimal?
   desc         String
-  categories   Category[]  @relation("CategoryToProduct")
+  categories   Category[] @relation("CategoryToProduct")
   stock        Int?
   soldOut      Int
   reviews      Review[]
-  reviewCount  Int         @default(0)
-  variantCount Int         @default(0)
-  isActive     Boolean     @default(true)
-  market       Market      @relation(fields: [marketId], references: [id])
+  reviewCount  Int        @default(0)
+  variantCount Int        @default(0)
+  isActive     Boolean    @default(true)
+  market       Market     @relation(fields: [marketId], references: [id])
   marketId     String
-  createAt     DateTime    @default(now())
-  updateAt     DateTime    @updatedAt
+  createAt     DateTime   @default(now())
+  updateAt     DateTime   @updatedAt
   variant      Variant[]
-  orders       OrderItem[]
 }
 
 model Market {
@@ -75,10 +74,10 @@ model Market {
   products     Product[]
 }
 
-model Order {
+model Cart {
   id         String      @id @default(uuid())
-  userId     String
-  status     String      @default("PENDING")
+  userId     String      @unique
+  status     String?     @default("CART")
   totalPrice Decimal     @default(0)
   createdAt  DateTime    @default(now())
   items      OrderItem[]
@@ -87,12 +86,12 @@ model Order {
 
 model OrderItem {
   id        String  @id @default(uuid())
-  orderId   String
   variantId String
+  cartId    String
   quantity  Int
   subTotal  Decimal
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  variant   Product @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
 }
 
 model Category {
@@ -103,11 +102,11 @@ model Category {
 }
 
 model Variant {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(cuid())
   label     String
-  stock     Int      @default(0)
-  price     Int      @default(0)
+  stock     Int         @default(0)
+  price     Decimal     @default(0)
   productId String
-  type      String
-  Products  Product? @relation(fields: [productId], references: [id])
+  Products  Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  items     OrderItem[]
 }

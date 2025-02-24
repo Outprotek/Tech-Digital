@@ -3,8 +3,8 @@ import { Prisma, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const finds = async () => {
-  const totalData = prisma.orderItem.count();
-  const response = prisma.orderItem.findMany();
+  const totalData = await prisma.orderItem.count();
+  const response = await prisma.orderItem.findMany();
   return { response, totalData };
 };
 
@@ -18,15 +18,6 @@ const findById = async (id: string) => {
   return response;
 };
 
-const add = async (data: Prisma.OrderItemCreateInput) => {
-  const response = prisma.orderItem.create({
-    data: {
-      ...data,
-    },
-  });
-  return response;
-};
-
 const remove = async (id: string) => {
   await prisma.orderItem.delete({
     where: {
@@ -35,4 +26,4 @@ const remove = async (id: string) => {
   });
 };
 
-export default { finds, findById, add, remove };
+export default { finds, findById, remove };

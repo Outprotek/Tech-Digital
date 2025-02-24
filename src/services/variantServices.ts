@@ -8,7 +8,7 @@ const finds = async () => {
   return { response, totalData };
 };
 
-const findById = async (id: number) => {
+const findById = async (id: string) => {
   const response = await prisma.variant.findFirst({
     where: {
       id,
@@ -42,7 +42,7 @@ const add = async (data: Prisma.VariantCreateInput) => {
   return response;
 };
 
-const remove = async (id: number) => {
+const remove = async (id: string) => {
   await prisma.variant.delete({
     where: {
       id,

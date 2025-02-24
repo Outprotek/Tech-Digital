@@ -22,7 +22,7 @@ const getVariants = async (req: Request, res: Response) => {
 };
 
 const getVariantById = async (req: Request, res: Response) => {
-  const varianId = Number(req.params.id);
+  const varianId = req.params.id;
   try {
     const data = await variantServices.findById(varianId);
     res.status(200).json({
@@ -47,7 +47,7 @@ const createVariant = async (req: Request, res: Response) => {
 };
 
 const deleteVariant = async (req: Request, res: Response) => {
-  const variantId = Number(req.params.id);
+  const variantId = req.params.id;
   try {
     await variantServices.remove(variantId);
     res.status(200).json({
