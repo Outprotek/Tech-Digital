@@ -1,7 +1,7 @@
 import { Router } from "express";
 import variantController from "../controllers/variantController";
 
-export const router = Router();
+const router = Router();
 
 /**
  * @swagger
@@ -91,3 +91,5 @@ router.post("/", variantController.createVariant);
  *         description: Success
  */
 router.delete("/:id", variantController.deleteVariant);
+
+export default router;

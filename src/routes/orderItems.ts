@@ -1,7 +1,7 @@
 import { Router } from "express";
 import orderItems from "../controllers/orderItems";
 
-export const router = Router();
+const router = Router();
 
 /**
  * @swagger
@@ -50,3 +50,5 @@ router.get("/:id", orderItems.getOrder);
  *         description: Sucsses Delete.
  */
 router.delete("/:id", orderItems.deleteOrder);
+
+export default router;

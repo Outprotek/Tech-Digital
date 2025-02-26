@@ -1,7 +1,7 @@
 import { Router } from "express";
 import cartController from "../controllers/cartController";
 
-export const router = Router();
+const router = Router();
 
 /**
  * @swagger
@@ -21,7 +21,7 @@ export const router = Router();
 router.get("/", cartController.getCarts);
 
 /**
- * @swagger
+ * @openapi
  * /cart/{id}:
  *   get:
  *     tags:
@@ -73,7 +73,7 @@ router.get("/:id", cartController.getCart);
 router.post("/", cartController.createCart);
 
 /**
- * @swagger
+ * @openapi
  * /cart:
  *   put:
  *     tags:
@@ -123,3 +123,5 @@ router.put("/", cartController.createCart);
  *         description: Sucsses Delete.
  */
 router.delete("/:id", cartController.deleteCart);
+
+export default router;

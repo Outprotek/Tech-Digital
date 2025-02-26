@@ -1,7 +1,7 @@
 import { Router } from "express";
 import marketController from "../controllers/marketController";
 
-export const router = Router();
+const router = Router();
 
 /**
  * @swagger
@@ -211,3 +211,5 @@ router.put("/status", marketController.statusMarket);
  */
 
 router.delete("/:id", marketController.deleteMarket);
+
+export default router;

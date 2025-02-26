@@ -1,17 +1,18 @@
 {
   "dependencies": {
     "@prisma/client": "^6.3.1",
-    "bcrypt": "^5.1.1",
+    "@vercel/node": "^5.1.8",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "serverless-http": "^3.2.0",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "tech-ecommerce": "file:"
+    "swagger-ui-express": "^5.0.1"
   },
   "name": "tech-ecommerce",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "index.js",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
@@ -25,8 +26,11 @@
     "typescript": "^5.7.3"
   },
   "scripts": {
+    "dev": "nodemon src/index.ts",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "deploy": "vercel deploy --prod",
+    "postinstall": "prisma generate",
+    "build": "prisma generate && tsc"
   },
   "author": "Outprotek",
   "license": "ISC",

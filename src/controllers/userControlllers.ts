@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import userServices from "../services/userServices";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 const getUsers = async (req: Request, res: Response) => {
   try {
     const data = await userServices.findUsers();

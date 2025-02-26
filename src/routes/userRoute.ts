@@ -1,7 +1,7 @@
 import { Router } from "express";
 import userControllers from "../controllers/userControlllers";
 
-export const router = Router();
+const router = Router();
 
 /**
  * @swagger
@@ -221,3 +221,5 @@ router.put("/status", userControllers.statusUser);
  */
 
 router.delete("/:id", userControllers.deleteUser);
+
+export default router;

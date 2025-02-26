@@ -1,7 +1,7 @@
 import { Router } from "express";
 import cateogoryController from "../controllers/categoryController";
 
-export const router = Router();
+const router = Router();
 
 /**
  * @swagger
@@ -111,3 +111,5 @@ router.put("/", cateogoryController.updateCategory);
  */
 
 router.delete("/:id", cateogoryController.deleteCategory);
+
+export default router;

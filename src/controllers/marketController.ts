@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import marketServices from "../services/marketServices";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 const getMarkets = async (req: Request, res: Response) => {
   try {
     const data = await marketServices.finds();

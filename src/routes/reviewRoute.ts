@@ -1,7 +1,7 @@
 import { Router } from "express";
 import reviewControllers from "../controllers/reviewControllers";
 
-export const router = Router();
+const router = Router();
 
 /**
  * @swagger
@@ -96,3 +96,5 @@ router.post("/", reviewControllers.createReview);
  */
 
 router.delete("/:id", reviewControllers.deleteReview);
+
+export default router;
